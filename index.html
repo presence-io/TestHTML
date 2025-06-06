@@ -1,0 +1,1952 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulMate - Mature Dating App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e91e63;
+        }
+        
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.2s;
+        }
+        
+        .icon-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        /* Registration Flow Styles */
+        .auth-screen {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .auth-logo {
+            font-size: 48px;
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+        
+        .auth-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .auth-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #e91e63;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-textarea:focus {
+            outline: none;
+            border-color: #e91e63;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #e91e63, #ff6b6b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            width: 100%;
+            padding: 18px;
+            background: transparent;
+            color: #e91e63;
+            border: 2px solid #e91e63;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background: #e91e63;
+            color: white;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #e91e63, #ff6b6b);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .step-indicator {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        /* Photo Upload Styles */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .photo-slot {
+            aspect-ratio: 3/4;
+            border: 2px dashed #e0e0e0;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .photo-slot:hover {
+            border-color: #e91e63;
+            background: #ffe0e6;
+        }
+        
+        .photo-slot.has-photo {
+            border-style: solid;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 48px;
+        }
+        
+        .photo-placeholder {
+            font-size: 32px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .photo-text {
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        /* Interest Tags */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .interest-tag {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .interest-tag:hover {
+            border-color: #e91e63;
+        }
+        
+        .interest-tag.selected {
+            border-color: #e91e63;
+            background: #ffe0e6;
+            color: #e91e63;
+        }
+        
+        .interest-emoji {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .interest-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Edit Profile Styles */
+        .edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #e91e63;
+        }
+        
+        .save-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .edit-content {
+            padding: 20px;
+        }
+        
+        .edit-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .photo-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .edit-photo-slot {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .edit-photo-slot.has-photo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 24px;
+        }
+        
+        .photo-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .range-group {
+            margin: 20px 0;
+        }
+        
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .range-input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .range-display {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Card Stack Styles */
+        .card-stack {
+            position: relative;
+            height: 500px;
+            margin: 20px 0;
+        }
+        
+        .dating-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+        }
+        
+        .card-images-container {
+            position: relative;
+            width: 100%;
+            height: 70%;
+            overflow: hidden;
+        }
+        
+        .card-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .card-image.active {
+            transform: translateX(0);
+        }
+        
+        .card-image.prev {
+            transform: translateX(-100%);
+        }
+        
+        .card-image.next {
+            transform: translateX(100%);
+        }
+        
+        .image-nav {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 10;
+            cursor: pointer;
+        }
+        
+        .image-nav-left {
+            left: 0;
+        }
+        
+        .image-nav-right {
+            right: 0;
+        }
+        
+        .image-indicators {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 15;
+        }
+        
+        .indicator {
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+        
+        .indicator.active {
+            background: rgba(255,255,255,0.9);
+        }
+        
+        .nav-hint {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-size: 18px;
+        }
+        
+        .nav-hint-left {
+            left: 15px;
+        }
+        
+        .nav-hint-right {
+            right: 15px;
+        }
+        
+        .card-images-container:hover .nav-hint {
+            opacity: 1;
+        }
+        
+        .card-info {
+            padding: 15px;
+            background: white;
+            height: 30%;
+            position: relative;
+        }
+        
+        .card-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .card-details {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .reject-btn {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .like-btn {
+            background: #2ed573;
+            color: white;
+        }
+        
+        .super-like-btn {
+            background: #3742fa;
+            color: white;
+        }
+        
+        /* Chat Styles */
+        .chat-list {
+            margin-top: 10px;
+        }
+        
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .chat-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .chat-info {
+            flex: 1;
+        }
+        
+        .chat-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .chat-preview {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .chat-time {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .unread-badge {
+            background: #e91e63;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        /* Likes Screen */
+        .likes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .like-card {
+            aspect-ratio: 3/4;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+        
+        .like-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .like-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        
+        /* Profile Styles */
+        .profile-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            margin: 0 auto 15px;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .profile-details {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .setting-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Chat Detail Styles */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .chat-detail {
+            padding: 0;
+            background: #f8f9fa;
+        }
+        
+        .messages-container {
+            padding: 20px;
+            min-height: calc(100vh - 160px);
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-end;
+        }
+        
+        .message.sent {
+            justify-content: flex-end;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .message.received .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message.sent .message-content {
+            background: #e91e63;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin: 0 10px;
+        }
+        
+        .message-input-container {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 15px 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .message-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .message-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: #e91e63;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: background 0.2s;
+            flex: 1;
+        }
+        
+        .nav-item.active {
+            background: #ffe0e6;
+            color: #e91e63;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .premium-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .match-notification {
+            background: linear-gradient(45deg, #e91e63, #ff6b6b);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .match-text {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .match-subtext {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .screen {
+                padding: 15px;
+                padding-bottom: 80px;
+            }
+            
+            .auth-screen {
+                padding: 30px 15px;
+            }
+            
+            .card-stack {
+                height: 450px;
+            }
+            
+            .action-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .chat-detail {
+                padding: 0;
+            }
+            
+            .messages-container {
+                padding: 15px;
+            }
+            
+            .edit-content {
+                padding: 15px;
+            }
+            
+            .photo-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div class="screen active auth-screen" id="welcome">
+            <div class="auth-logo">💝</div>
+            <div class="auth-title">SoulMate</div>
+            <div class="auth-subtitle">
+                Find meaningful connections and lasting relationships.<br>
+                Join thousands of mature singles finding love.
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('register1')">Create Account</button>
+            <button class="btn-secondary" onclick="showScreen('login')">Sign In</button>
+        </div>
+        
+        <!-- Login Screen -->
+        <div class="screen auth-screen" id="login">
+            <div class="auth-logo">💝</div>
+            <div class="auth-title">Welcome Back</div>
+            <div class="auth-subtitle">
+                Sign in to continue your journey to finding love.
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" placeholder="Enter your password">
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('discover')">Sign In</button>
+            <button class="btn-secondary" onclick="showScreen('register1')">Create New Account</button>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="#" style="color: #e91e63; text-decoration: none;">Forgot Password?</a>
+            </div>
+        </div>
+        
+        <!-- Registration Step 1: Basic Info -->
+        <div class="screen auth-screen" id="register1">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 20%;"></div>
+            </div>
+            <div class="step-indicator">Step 1 of 5</div>
+            
+            <div class="auth-title" style="font-size: 24px;">Let's Get Started</div>
+            <div class="auth-subtitle">Tell us a bit about yourself</div>
+            
+            <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" placeholder="Enter your first name">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" placeholder="Create a secure password">
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('register2')">Continue</button>
+            <button class="btn-secondary" onclick="showScreen('login')">Already have an account?</button>
+        </div>
+        
+        <!-- Registration Step 2: Personal Details -->
+        <div class="screen auth-screen" id="register2">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 40%;"></div>
+            </div>
+            <div class="step-indicator">Step 2 of 5</div>
+            
+            <div class="auth-title" style="font-size: 24px;">About You</div>
+            <div class="auth-subtitle">Help others find you</div>
+            
+            <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select class="form-select">
+                    <option value="">Select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-input" placeholder="City, State">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Occupation</label>
+                <input type="text" class="form-input" placeholder="Your profession">
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('register3')">Continue</button>
+            <button class="btn-secondary" onclick="showScreen('register1')">Back</button>
+        </div>
+        
+        <!-- Registration Step 3: Photos -->
+        <div class="screen auth-screen" id="register3">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%;"></div>
+            </div>
+            <div class="step-indicator">Step 3 of 5</div>
+            
+            <div class="auth-title" style="font-size: 24px;">Add Photos</div>
+            <div class="auth-subtitle">Show your best self with great photos</div>
+            
+            <div class="photo-grid">
+                <div class="photo-slot" onclick="addPhoto(this)">
+                    <div class="photo-placeholder">📷</div>
+                    <div class="photo-text">Add Photo</div>
+                </div>
+                
+                <div class="photo-slot" onclick="addPhoto(this)">
+                    <div class="photo-placeholder">📷</div>
+                    <div class="photo-text">Add Photo</div>
+                </div>
+                
+                <div class="photo-slot" onclick="addPhoto(this)">
+                    <div class="photo-placeholder">📷</div>
+                    <div class="photo-text">Add Photo</div>
+                </div>
+                
+                <div class="photo-slot" onclick="addPhoto(this)">
+                    <div class="photo-placeholder">📷</div>
+                    <div class="photo-text">Add Photo</div>
+                </div>
+            </div>
+            
+            <div style="color: #666; font-size: 14px; margin: 20px 0; text-align: center;">
+                Add at least 2 photos to continue. High-quality photos get more matches!
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('register4')">Continue</button>
+            <button class="btn-secondary" onclick="showScreen('register2')">Back</button>
+        </div>
+        
+        <!-- Registration Step 4: Interests -->
+        <div class="screen auth-screen" id="register4">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 80%;"></div>
+            </div>
+            <div class="step-indicator">Step 4 of 5</div>
+            
+            <div class="auth-title" style="font-size: 24px;">Your Interests</div>
+            <div class="auth-subtitle">What do you enjoy doing in your free time?</div>
+            
+            <div class="interests-grid">
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🥾</div>
+                    <div class="interest-name">Hiking</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">👨‍🍳</div>
+                    <div class="interest-name">Cooking</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">📚</div>
+                    <div class="interest-name">Reading</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🎵</div>
+                    <div class="interest-name">Music</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🌍</div>
+                    <div class="interest-name">Travel</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🍷</div>
+                    <div class="interest-name">Wine</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🏛️</div>
+                    <div class="interest-name">Museums</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🚴‍♂️</div>
+                    <div class="interest-name">Cycling</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🎭</div>
+                    <div class="interest-name">Theater</div>
+                </div>
+                
+                <div class="interest-tag" onclick="toggleInterest(this)">
+                    <div class="interest-emoji">🧘‍♀️</div>
+                    <div class="interest-name">Yoga</div>
+                </div>
+            </div>
+            
+            <div style="color: #666; font-size: 14px; margin: 20px 0; text-align: center;">
+                Select at least 3 interests to help find compatible matches
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('register5')">Continue</button>
+            <button class="btn-secondary" onclick="showScreen('register3')">Back</button>
+        </div>
+        
+        <!-- Registration Step 5: Bio -->
+        <div class="screen auth-screen" id="register5">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+            <div class="step-indicator">Step 5 of 5</div>
+            
+            <div class="auth-title" style="font-size: 24px;">Tell Your Story</div>
+            <div class="auth-subtitle">Write a brief bio about yourself</div>
+            
+            <div class="form-group">
+                <label class="form-label">About Me</label>
+                <textarea class="form-textarea" placeholder="Tell us about yourself, your interests, and what you're looking for in a relationship..." maxlength="500"></textarea>
+                <div style="text-align: right; color: #999; font-size: 12px; margin-top: 5px;">0/500</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Looking For</label>
+                <select class="form-select">
+                    <option value="">What are you looking for?</option>
+                    <option value="serious">Serious Relationship</option>
+                    <option value="casual">Casual Dating</option>
+                    <option value="friendship">Friendship</option>
+                    <option value="companionship">Companionship</option>
+                </select>
+            </div>
+            
+            <button class="btn-primary" onclick="showScreen('discover')">Complete Registration</button>
+            <button class="btn-secondary" onclick="showScreen('register4')">Back</button>
+        </div>
+        
+        <!-- Discover/Swipe Screen -->
+        <div class="screen" id="discover">
+            <div class="header">
+                <div class="logo">SoulMate</div>
+                <div>
+                    <button class="icon-btn" onclick="showScreen('editProfile')">⚙️</button>
+                </div>
+            </div>
+            
+            <!-- Match Notification -->
+            <div class="match-notification" style="display: none;" id="matchNotification">
+                <div class="match-text">🎉 It's a Match!</div>
+                <div class="match-subtext">You and Sarah both liked each other</div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">Matches</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Likes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Messages</div>
+                </div>
+            </div>
+            
+            <div class="card-stack">
+                <div class="dating-card">
+                    <div class="card-images-container">
+                        <!-- Image indicators -->
+                        <div class="image-indicators">
+                            <div class="indicator active"></div>
+                            <div class="indicator"></div>
+                            <div class="indicator"></div>
+                            <div class="indicator"></div>
+                        </div>
+                        
+                        <!-- Navigation areas -->
+                        <div class="image-nav image-nav-left" onclick="previousImage(event)"></div>
+                        <div class="image-nav image-nav-right" onclick="nextImage(event)"></div>
+                        
+                        <!-- Navigation hints -->
+                        <div class="nav-hint nav-hint-left">‹</div>
+                        <div class="nav-hint nav-hint-right">›</div>
+                        
+                        <!-- Images -->
+                        <div class="card-image active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">👨‍💼</div>
+                        <div class="card-image next" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🏔️</div>
+                        <div class="card-image next" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🍝</div>
+                        <div class="card-image next" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">📚</div>
+                    </div>
+                    
+                    <div class="card-info">
+                        <div class="card-name">Michael, 52</div>
+                        <div class="card-details">📍 2 miles away • Engineer<br>Loves hiking, cooking, and classical music<br>💡 Tap photos to see more</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn reject-btn" onclick="rejectCard()">✕</button>
+                <button class="action-btn super-like-btn" onclick="superLikeCard()">⭐</button>
+                <button class="action-btn like-btn" onclick="likeCard()">♥</button>
+            </div>
+        </div>
+        
+        <!-- Edit Profile Screen -->
+        <div class="screen" id="editProfile" style="padding: 0;">
+            <div class="edit-header">
+                <button class="back-btn" onclick="showScreen('profile')">←</button>
+                <div style="font-weight: bold; font-size: 18px;">Edit Profile</div>
+                <button class="save-btn" onclick="saveProfile()">Save</button>
+            </div>
+            
+            <div class="edit-content">
+                <!-- Photos Section -->
+                <div class="edit-section">
+                    <div class="section-header">📸 Photos</div>
+                    <div class="photo-edit-grid">
+                        <div class="edit-photo-slot has-photo">
+                            👨‍💼
+                            <button class="photo-remove" onclick="removePhoto(this)">×</button>
+                        </div>
+                        <div class="edit-photo-slot has-photo">
+                            🏔️
+                            <button class="photo-remove" onclick="removePhoto(this)">×</button>
+                        </div>
+                        <div class="edit-photo-slot has-photo">
+                            🍝
+                            <button class="photo-remove" onclick="removePhoto(this)">×</button>
+                        </div>
+                        <div class="edit-photo-slot" onclick="addPhoto(this)">
+                            <div style="font-size: 24px; color: #ccc;">+</div>
+                        </div>
+                        <div class="edit-photo-slot" onclick="addPhoto(this)">
+                            <div style="font-size: 24px; color: #ccc;">+</div>
+                        </div>
+                        <div class="edit-photo-slot" onclick="addPhoto(this)">
+                            <div style="font-size: 24px; color: #ccc;">+</div>
+                        </div>
+                    </div>
+                    <div style="color: #666; font-size: 14px;">
+                        Drag to reorder photos. Your first photo is your main profile picture.
+                    </div>
+                </div>
+                
+                <!-- Basic Info Section -->
+                <div class="edit-section">
+                    <div class="section-header">👤 Basic Information</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-input" value="John Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="form-input" value="55" min="18" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" value="Chicago, IL">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Occupation</label>
+                        <input type="text" class="form-input" value="Retired Teacher">
+                    </div>
+                </div>
+                
+                <!-- About Me Section -->
+                <div class="edit-section">
+                    <div class="section-header">✍️ About Me</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Bio</label>
+                        <textarea class="form-textarea" maxlength="500">Retired teacher who loves traveling, reading, and spending time with family. Looking for someone to share life's beautiful moments with.</textarea>
+                        <div style="text-align: right; color: #999; font-size: 12px; margin-top: 5px;">145/500</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Looking For</label>
+                        <select class="form-select">
+                            <option value="serious" selected="">Serious Relationship</option>
+                            <option value="casual">Casual Dating</option>
+                            <option value="friendship">Friendship</option>
+                            <option value="companionship">Companionship</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Preferences Section -->
+                <div class="edit-section">
+                    <div class="section-header">⚙️ Discovery Preferences</div>
+                    
+                    <div class="range-group">
+                        <div class="range-label">
+                            <span>Age Range</span>
+                            <span>45-65</span>
+                        </div>
+                        <input type="range" class="range-input" min="18" max="80" value="45" onchange="updateAgeRange(this)">
+                        <input type="range" class="range-input" min="18" max="80" value="65" onchange="updateAgeRange(this)">
+                        <div class="range-display">Looking for people aged 45-65</div>
+                    </div>
+                    
+                    <div class="range-group">
+                        <div class="range-label">
+                            <span>Distance</span>
+                            <span>25 miles</span>
+                        </div>
+                        <input type="range" class="range-input" min="1" max="100" value="25" onchange="updateDistance(this)">
+                        <div class="range-display">Show people within 25 miles</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Interested In</label>
+                        <select class="form-select">
+                            <option value="women" selected="">Women</option>
+                            <option value="men">Men</option>
+                            <option value="everyone">Everyone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Interests Section -->
+                <div class="edit-section">
+                    <div class="section-header">❤️ Interests</div>
+                    
+                    <div class="interests-grid">
+                        <div class="interest-tag selected" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">🥾</div>
+                            <div class="interest-name">Hiking</div>
+                        </div>
+                        
+                        <div class="interest-tag selected" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">👨‍🍳</div>
+                            <div class="interest-name">Cooking</div>
+                        </div>
+                        
+                        <div class="interest-tag selected" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">📚</div>
+                            <div class="interest-name">Reading</div>
+                        </div>
+                        
+                        <div class="interest-tag" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">🎵</div>
+                            <div class="interest-name">Music</div>
+                        </div>
+                        
+                        <div class="interest-tag selected" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">🌍</div>
+                            <div class="interest-name">Travel</div>
+                        </div>
+                        
+                        <div class="interest-tag" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">🍷</div>
+                            <div class="interest-name">Wine</div>
+                        </div>
+                        
+                        <div class="interest-tag" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">🏛️</div>
+                            <div class="interest-name">Museums</div>
+                        </div>
+                        
+                        <div class="interest-tag" onclick="toggleInterest(this)">
+                            <div class="interest-emoji">🚴‍♂️</div>
+                            <div class="interest-name">Cycling</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Messages Screen -->
+        <div class="screen" id="messages">
+            <div class="header">
+                <div class="title">Messages</div>
+                <button class="icon-btn">✉️</button>
+            </div>
+            
+            <div class="chat-list">
+                <div class="chat-item" onclick="showScreen('chatDetail')">
+                    <div class="avatar" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4);">E</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Emma Wilson</div>
+                        <div class="chat-preview">That sounds like a wonderful plan! When...</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <div class="chat-time">2m</div>
+                        <div class="unread-badge">2</div>
+                    </div>
+                </div>
+                
+                <div class="chat-item" onclick="showScreen('chatDetail')">
+                    <div class="avatar" style="background: linear-gradient(45deg, #667eea, #764ba2);">R</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Robert Davis</div>
+                        <div class="chat-preview">I'd love to join you for coffee sometime</div>
+                    </div>
+                    <div class="chat-time">1h</div>
+                </div>
+                
+                <div class="chat-item" onclick="showScreen('chatDetail')">
+                    <div class="avatar" style="background: linear-gradient(45deg, #f093fb, #f5576c);">S</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Sarah Johnson</div>
+                        <div class="chat-preview">Thank you for the lovely evening!</div>
+                    </div>
+                    <div class="chat-time">3h</div>
+                </div>
+                
+                <div class="chat-item" onclick="showScreen('chatDetail')">
+                    <div class="avatar" style="background: linear-gradient(45deg, #4facfe, #00f2fe);">M</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Margaret Thompson</div>
+                        <div class="chat-preview">The book club meeting was amazing...</div>
+                    </div>
+                    <div class="chat-time">1d</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Detail Screen -->
+        <div class="screen chat-detail" id="chatDetail">
+            <div class="chat-header">
+                <button class="back-btn" onclick="showScreen('messages')">←</button>
+                <div class="avatar" style="width: 40px; height: 40px; margin-right: 12px;">E</div>
+                <div style="flex: 1;">
+                    <div style="font-weight: bold; font-size: 16px;">Emma Wilson</div>
+                    <div style="color: #666; font-size: 12px;">Online now</div>
+                </div>
+                <button class="icon-btn">📞</button>
+            </div>
+            
+            <div class="messages-container">
+                <div class="message received">
+                    <div class="message-content">Hi John! How was your weekend hiking trip?</div>
+                    <div class="message-time">10:30 AM</div>
+                </div>
+                
+                <div class="message sent">
+                    <div class="message-time">10:32 AM</div>
+                    <div class="message-content">It was wonderful! The views from the mountain were breathtaking. How about your book club meeting?</div>
+                </div>
+                
+                <div class="message received">
+                    <div class="message-content">Oh, it was fantastic! We discussed "The Seven Husbands of Evelyn Hugo". Have you read it?</div>
+                    <div class="message-time">10:35 AM</div>
+                </div>
+                
+                <div class="message sent">
+                    <div class="message-time">10:37 AM</div>
+                    <div class="message-content">Not yet, but it's on my reading list! Would you recommend it?</div>
+                </div>
+                
+                <div class="message received">
+                    <div class="message-content">Absolutely! It's a beautiful story. Maybe we could discuss it over coffee sometime? ☕</div>
+                    <div class="message-time">10:40 AM</div>
+                </div>
+                
+                <div class="message sent">
+                    <div class="message-time">Just now</div>
+                    <div class="message-content">That sounds like a wonderful plan! When would work for you?</div>
+                </div>
+            </div>
+            
+            <div class="message-input-container">
+                <div class="message-input">
+                    <input type="text" placeholder="Type a message...">
+                    <button class="send-btn">➤</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Likes Screen -->
+        <div class="screen" id="likes">
+            <div class="header">
+                <div class="title">Who Likes You</div>
+                <div class="premium-badge">Premium</div>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 20px; color: #666;">
+                <p style="font-size: 16px; margin-bottom: 10px;">💝 <strong>18 people</strong> liked you recently</p>
+                <p style="font-size: 14px;">Upgrade to see who they are and match instantly!</p>
+            </div>
+            
+            <div class="likes-grid">
+                <div class="like-card" onclick="showMatchModal()">
+                    👩‍🦳
+                    <div class="like-overlay">
+                        <div class="like-name">Margaret</div>
+                    </div>
+                </div>
+                
+                <div class="like-card" onclick="showMatchModal()">
+                    👨‍🦲
+                    <div class="like-overlay">
+                        <div class="like-name">Steven</div>
+                    </div>
+                </div>
+                
+                <div class="like-card" onclick="showMatchModal()">
+                    👩‍🦰
+                    <div class="like-overlay">
+                        <div class="like-name">Patricia</div>
+                    </div>
+                </div>
+                
+                <div class="like-card" onclick="showMatchModal()">
+                    👨‍🦳
+                    <div class="like-overlay">
+                        <div class="like-name">William</div>
+                    </div>
+                </div>
+                
+                <div class="like-card" onclick="showMatchModal()">
+                    👩‍🦱
+                    <div class="like-overlay">
+                        <div class="like-name">Barbara</div>
+                    </div>
+                </div>
+                
+                <div class="like-card" onclick="showMatchModal()">
+                    👨‍💼
+                    <div class="like-overlay">
+                        <div class="like-name">Charles</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-primary" style="width: auto; padding: 15px 30px;">
+                    ⭐ Upgrade to Premium
+                </button>
+            </div>
+        </div>
+        
+        <!-- Profile Screen -->
+        <div class="screen" id="profile">
+            <div class="header">
+                <div class="title">My Profile</div>
+                <button class="icon-btn" onclick="showScreen('editProfile')">✏️</button>
+            </div>
+            
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-name">John Smith</div>
+                    <div class="profile-details">55 years old • Chicago, IL</div>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <h3 style="margin-bottom: 15px; color: #333;">About Me</h3>
+                <p style="color: #666; line-height: 1.5;">
+                    Retired teacher who loves traveling, reading, and spending time with family. 
+                    Looking for someone to share life's beautiful moments with.
+                </p>
+            </div>
+            
+            <div class="profile-section">
+                <h3 style="margin-bottom: 15px; color: #333;">Account &amp; Settings</h3>
+                <div class="setting-item" onclick="showScreen('editProfile')">
+                    <span>🏷️ Edit Profile</span>
+                    <span>&gt;</span>
+                </div>
+                <div class="setting-item">
+                    <span>🔍 Discovery Settings</span>
+                    <span>&gt;</span>
+                </div>
+                <div class="setting-item">
+                    <span>🔒 Privacy &amp; Safety</span>
+                    <span>&gt;</span>
+                </div>
+                <div class="setting-item">
+                    <span>🔔 Notifications</span>
+                    <span>&gt;</span>
+                </div>
+                <div class="setting-item">
+                    <span>⭐ Premium Features</span>
+                    <span>&gt;</span>
+                </div>
+                <div class="setting-item">
+                    <span>❓ Help &amp; Support</span>
+                    <span>&gt;</span>
+                </div>
+                <div class="setting-item">
+                    <span>👋 Sign Out</span>
+                    <span>&gt;</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="showScreen('discover')">
+                <div class="nav-icon">💝</div>
+                <div class="nav-label">Discover</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('messages')">
+                <div class="nav-icon">💬</div>
+                <div class="nav-label">Messages</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('likes')">
+                <div class="nav-icon">💕</div>
+                <div class="nav-label">Likes</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentImageIndex = 0;
+        const totalImages = 4;
+        
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Update navigation only for main screens
+            const mainScreens = ['discover', 'messages', 'likes', 'profile'];
+            if (mainScreens.includes(screenId)) {
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Find the nav item that corresponds to this screen
+                const navItems = document.querySelectorAll('.nav-item');
+                const screenIndex = mainScreens.indexOf(screenId);
+                if (screenIndex !== -1 && navItems[screenIndex]) {
+                    navItems[screenIndex].classList.add('active');
+                }
+            }
+        }
+        
+        function updateImageDisplay() {
+            const images = document.querySelectorAll('.card-image');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            images.forEach((img, index) => {
+                img.classList.remove('active', 'prev', 'next');
+                if (index === currentImageIndex) {
+                    img.classList.add('active');
+                } else if (index < currentImageIndex) {
+                    img.classList.add('prev');
+                } else {
+                    img.classList.add('next');
+                }
+            });
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentImageIndex);
+            });
+        }
+        
+        function nextImage(event) {
+            event.stopPropagation();
+            currentImageIndex = (currentImageIndex + 1) % totalImages;
+            updateImageDisplay();
+        }
+        
+        function previousImage(event) {
+            event.stopPropagation();
+            currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+            updateImageDisplay();
+        }
+        
+        function toggleInterest(element) {
+            element.classList.toggle('selected');
+        }
+        
+        function addPhoto(element) {
+            if (!element.classList.contains('has-photo')) {
+                const photos = ['👨‍💼', '🏔️', '🍝', '📚', '🌅', '🚴‍♂️', '🎵', '☕', '🌺', '📖'];
+                const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+                
+                element.innerHTML = randomPhoto;
+                element.classList.add('has-photo');
+                
+                if (element.closest('.edit-section')) {
+                    element.innerHTML += '<button class="photo-remove" onclick="removePhoto(this)">×</button>';
+                }
+            }
+        }
+        
+        function removePhoto(button) {
+            const photoSlot = button.parentElement;
+            photoSlot.classList.remove('has-photo');
+            
+            if (photoSlot.classList.contains('edit-photo-slot')) {
+                photoSlot.innerHTML = '<div style="font-size: 24px; color: #ccc;">+</div>';
+                photoSlot.onclick = function() { addPhoto(this); };
+            } else {
+                photoSlot.innerHTML = '<div class="photo-placeholder">📷</div><div class="photo-text">Add Photo</div>';
+            }
+        }
+        
+        function updateAgeRange(slider) {
+            const rangeGroup = slider.closest('.range-group');
+            const sliders = rangeGroup.querySelectorAll('input[type="range"]');
+            const label = rangeGroup.querySelector('.range-label span:last-child');
+            const display = rangeGroup.querySelector('.range-display');
+            
+            const min = Math.min(sliders[0].value, sliders[1].value);
+            const max = Math.max(sliders[0].value, sliders[1].value);
+            
+            label.textContent = `${min}-${max}`;
+            display.textContent = `Looking for people aged ${min}-${max}`;
+        }
+        
+        function updateDistance(slider) {
+            const rangeGroup = slider.closest('.range-group');
+            const label = rangeGroup.querySelector('.range-label span:last-child');
+            const display = rangeGroup.querySelector('.range-display');
+            
+            label.textContent = `${slider.value} miles`;
+            display.textContent = `Show people within ${slider.value} miles`;
+        }
+        
+        function saveProfile() {
+            // Simulate saving
+            alert('Profile saved successfully!');
+            showScreen('profile');
+        }
+        
+        // Card actions
+        function rejectCard() {
+            nextCard();
+        }
+        
+        function likeCard() {
+            // Sometimes show match notification
+            if (Math.random() < 0.3) {
+                showMatchNotification();
+            }
+            nextCard();
+        }
+        
+        function superLikeCard() {
+            // Higher chance of match with super like
+            if (Math.random() < 0.6) {
+                showMatchNotification();
+            }
+            nextCard();
+        }
+        
+        function showMatchNotification() {
+            const notification = document.getElementById('matchNotification');
+            notification.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        function showMatchModal() {
+            alert('Upgrade to Premium to see who liked you and match instantly!');
+        }
+        
+        // Card management
+        let currentCard = 0;
+        const cards = [
+            { 
+                name: "Michael, 52", 
+                images: ["👨‍💼", "🏔️", "🍝", "📚"],
+                details: "📍 2 miles away • Engineer<br>Loves hiking, cooking, and classical music<br>💡 Tap photos to see more"
+            },
+            { 
+                name: "Susan, 48", 
+                images: ["👩‍🏫", "🌸", "📖", "☕"],
+                details: "📍 3 miles away • Teacher<br>Enjoys reading, gardening, and coffee<br>💡 Tap photos to see more"
+            },
+            { 
+                name: "David, 60", 
+                images: ["👨‍🦳", "🎵", "🍷", "🚴‍♂️"],
+                details: "📍 5 miles away • Retired Doctor<br>Passionate about music and cycling<br>💡 Tap photos to see more"
+            },
+            { 
+                name: "Linda, 54", 
+                images: ["👩‍🦰", "🌍", "🎭", "🧘‍♀️"],
+                details: "📍 4 miles away • Travel Writer<br>Loves theater, yoga, and adventures<br>💡 Tap photos to see more"
+            }
+        ];
+        
+        function nextCard() {
+            currentCard++;
+            updateCard();
+            
+            // Add animation effect
+            const card = document.querySelector('.dating-card');
+            card.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                card.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        function updateCard() {
+            const card = document.querySelector('.dating-card');
+            const cardData = cards[currentCard % cards.length];
+            const images = card.querySelectorAll('.card-image');
+            
+            // Update images
+            images.forEach((img, index) => {
+                if (cardData.images[index]) {
+                    img.textContent = cardData.images[index];
+                }
+            });
+            
+            // Update card info
+            card.querySelector('.card-name').textContent = cardData.name;
+            card.querySelector('.card-details').innerHTML = cardData.details;
+            
+            // Reset to first image
+            currentImageIndex = 0;
+            updateImageDisplay();
+        }
+        
+        // Character counter for textarea
+        document.addEventListener('input', (e) => {
+            if (e.target.tagName === 'TEXTAREA') {
+                const counter = e.target.parentElement.querySelector('div[style*="text-align: right"]');
+                if (counter) {
+                    const maxLength = e.target.getAttribute('maxlength') || 500;
+                    counter.textContent = `${e.target.value.length}/${maxLength}`;
+                }
+            }
+        });
+        
+        // Initialize
+        updateCard();
+        showScreen('welcome');
+    </script>
+
+
+</body></html>
